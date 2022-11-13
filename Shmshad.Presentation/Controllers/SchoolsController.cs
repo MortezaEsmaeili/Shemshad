@@ -3,8 +3,8 @@ using Service.Contracts;
 
 namespace Shmshad.Presentation.Controllers
 {
+    [Route("api/schools")]
     [ApiController]
-    [Route("api/[controller]")]
     public class SchoolsController : Controller
     {
         private readonly IServiceManager _service;
@@ -14,19 +14,19 @@ namespace Shmshad.Presentation.Controllers
             _service = service;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        [HttpGet(Name = "GetSchools")]
+        public async Task<IActionResult> GetSchools()
         {
-            try
-            {
-                var schools =
-                    await _service.SchoolService.GetAllSchoolsAsync(trackChanges: false);
-                return Ok(schools);
-            } 
-            catch
-            { 
-                return StatusCode(500, "Internal server error");
-            }
+            var schools =
+                await _service.SchoolService.GetAllSchoolsAsync(trackChanges: false);
+            return Ok(schools);
         }
+
+        [HttpGet("{id:guid}", Name = "SchoolById")]
+        public async Task<IActionResult> GetSchool(Guid id) 
+        { 
+            var school = 
+                await _service.SchoolService.GetSchoolAsync(id, trackChanges: false);
+            return Ok(school); }
     }
 }

@@ -4,6 +4,7 @@ using NLog;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,7 @@ builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.AddAuthentication();
 builder.Services.ConfigureIdentity();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(typeof(Program));
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -38,17 +40,21 @@ else
 //}
 
 // Configure the HTTP request pipeline.
-
-/*app.UseHttpsRedirection();
+var logger = app.Services.GetRequiredService<ILoggerManager>();
+app.ConfigureExceptionHandler(logger);
+if (app.Environment.IsProduction())
+    app.UseHsts();
+app.UseHttpsRedirection();
 
 app.UseStaticFiles(); 
-app.UseForwardedHeaders(new ForwardedHeadersOptions
+/*app.UseForwardedHeaders(new ForwardedHeadersOptions
 { 
     ForwardedHeaders = ForwardedHeaders.All
 }); 
 app.UseCors("CorsPolicy");
 
 app.UseAuthentication();*/
+
 app.UseAuthorization();
 
 app.MapControllers();

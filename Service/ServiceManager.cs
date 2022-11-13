@@ -1,4 +1,5 @@
-﻿using Contracts;
+﻿using AutoMapper;
+using Contracts;
 using Service.Contracts;
 
 using System;
@@ -15,13 +16,13 @@ namespace Service
         private readonly Lazy<IStudentService> _studentService;
 
         public ServiceManager(IRepositoryManager repositoryManager,
-            ILoggerManager  logger)
+            ILoggerManager  logger, IMapper mapper)
         {
             _schoolService = new Lazy<ISchoolService>(() => new
-            SchoolService(repositoryManager, logger));
+            SchoolService(repositoryManager, logger, mapper));
 
             _studentService = new Lazy<IStudentService>(() => new
-            StudentService(repositoryManager, logger));
+            StudentService(repositoryManager, logger, mapper));
         }
         public ISchoolService SchoolService => _schoolService.Value;
         public IStudentService StudentService => _studentService.Value;
