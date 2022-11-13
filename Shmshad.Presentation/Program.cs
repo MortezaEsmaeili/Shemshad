@@ -22,6 +22,16 @@ builder.Services.AddAuthentication();
 builder.Services.ConfigureIdentity();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(Program));
+
+builder.Services.AddControllers(config =>
+{
+    config.RespectBrowserAcceptHeader = true;
+    config.ReturnHttpNotAcceptable = true;
+    config.InputFormatters.Insert(0, GetJsonPatchInputFormatter());
+    config.CacheProfiles.Add("120SecondsDuration", new CacheProfile { Duration = 120 });
+}).AddXmlDataContractSerializerFormatters()
+  .AddApplicationPart(typeof(Shemshad.Presentation.AssemblyReference).Assembly);
+
 // Add services to the container.
 
 builder.Services.AddControllers();

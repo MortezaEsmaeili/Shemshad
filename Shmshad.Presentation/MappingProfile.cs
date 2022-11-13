@@ -9,7 +9,7 @@ namespace Shemshad.Presentation
         public MappingProfile()
         {
             CreateMap<School,SchoolDto>()
-                .ForCtorParam("FullAddress",
+                .ForMember(s => s.FullAddress,
                     opt => opt.MapFrom(x => string.Join(' ', x.Address, x.Country)));
             CreateMap<Student, StudentDto>();
         }
