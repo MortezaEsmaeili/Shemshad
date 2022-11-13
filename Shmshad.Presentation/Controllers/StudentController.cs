@@ -13,5 +13,20 @@ namespace Shemshad.Presentation.Controllers
         {
             _service = service;
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetStudentsForSchool(Guid schoolID)
+        {
+            var students =
+                await _service.StudentService.GetStudentsAsync(schoolID, trackChanges: false);
+            return Ok(students);
+        }
+
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> GetStudentForSchool(Guid schoolId, Guid id)
+        {
+            var student = await _service.StudentService.GetStudentAsync(schoolId, id, trackChanges: false);
+            return Ok(student);
+        }
     }
 }

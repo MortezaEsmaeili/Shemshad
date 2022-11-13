@@ -22,14 +22,13 @@ internal sealed class StudentRepository : RepositoryBase<Student>, IStudentRepos
 			trackChanges).OrderBy(e => e.Name).ToListAsync();
 
 		return students;
-
     }
 
 	public async Task<Student> GetStudentAsync(Guid schoolID, Guid id, bool trackChanges) =>
 		await FindByCondition(e => e.SchoolId.Equals(schoolID) && e.Id.Equals(id), trackChanges)
 		.SingleOrDefaultAsync();
 
-	public void CreateEmployeeForCompany(Guid schoolID, Student student)
+	public void CreateStudentForSchool(Guid schoolID, Student student)
 	{
         student.SchoolId = schoolID;
 		Create(student);

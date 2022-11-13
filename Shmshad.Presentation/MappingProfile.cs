@@ -11,6 +11,7 @@ namespace Shemshad.Presentation
             CreateMap<School,SchoolDto>()
                 .ForCtorParam("FullAddress",
                     opt => opt.MapFrom(x => string.Join(' ', x.Address, x.Country)));
+            CreateMap<Student, StudentDto>();
         }
     }
 }

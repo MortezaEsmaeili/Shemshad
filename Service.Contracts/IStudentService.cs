@@ -3,14 +3,16 @@
 //using Shared.DataTransferObjects;
 //using Shared.RequestFeatures;
 
+using Shared.DataTransferObjects;
+
 namespace Service.Contracts;
 
 public interface IStudentService
-{/*
-	Task<(LinkResponse linkResponse, MetaData metaData)> GetEmployeesAsync(Guid companyId,
-		LinkParameters linkParameters, bool trackChanges);
-	Task<EmployeeDto> GetEmployeeAsync(Guid companyId, Guid id, bool trackChanges);
-	Task<EmployeeDto> CreateEmployeeForCompanyAsync(Guid companyId,
+{
+	Task<IEnumerable<StudentDto>> GetStudentsAsync(Guid schoolId,
+		 bool trackChanges);
+	Task<StudentDto> GetStudentAsync(Guid schoolId, Guid id, bool trackChanges);
+/*	Task<EmployeeDto> CreateEmployeeForCompanyAsync(Guid companyId,
 		EmployeeForCreationDto employeeForCreation, bool trackChanges);
 	Task DeleteEmployeeForCompanyAsync(Guid companyId, Guid id, bool trackChanges);
 	Task UpdateEmployeeForCompanyAsync(Guid companyId, Guid id,
