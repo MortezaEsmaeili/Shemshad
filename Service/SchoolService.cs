@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Contracts;
+using Entities.Exceptions;
 using Entities.Models;
 using Service.Contracts;
 using Shared.DataTransferObjects;
@@ -32,10 +33,13 @@ namespace Service
             var schoolsDto = _mapper.Map<IEnumerable<SchoolDto>>(schools);
             return schoolsDto;
         }
-        public SchoolDto GetCompany(Guid id, bool trackChanges)
+        public async Task<SchoolDto> GetSchoolAsync(Guid id, bool trackChanges)
         {
-            var school = _repository.School.GetSchoolAsync(id, trackChanges);
-            //Check if the company is null
+            var school = await _repository.School.GetSchoolAsync(id, trackChanges);
+            
+            if (school is null)
+                throw new SchoolNotFoundException(id);
+
             var schoolDTO = _mapper.Map<SchoolDto>(school);
             return schoolDTO; 
         }

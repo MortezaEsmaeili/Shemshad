@@ -5,9 +5,9 @@ namespace Contracts;
 
 public interface IStudentRepository
 {
-	Task<PagedList<Student>> GetStudentsAsync(Guid schoolId,
-        StudentParameters studentParameters, bool trackChanges);
-	Task<Student> GetStudentAsync(Guid companyId, Guid id, bool trackChanges);
-	void CreateEmployeeForCompany(Guid companyId, Student student);
-	void DeleteEmployee(Student student);
+	Task<IEnumerable<Student>> GetStudentsAsync(Guid schoolId,
+         bool trackChanges);
+	Task<Student> GetStudentAsync(Guid schoolId, Guid id, bool trackChanges);
+	void CreateStudentForCompany(Guid schoolId, Student student);
+	void DeleteStudent(Student student);
 }

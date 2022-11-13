@@ -3,6 +3,8 @@ using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Repository.Extensions;
 using Shared.RequestFeatures;
+using System.Collections;
+using System.ComponentModel.Design;
 
 namespace Repository;
 
@@ -13,18 +15,15 @@ internal sealed class StudentRepository : RepositoryBase<Student>, IStudentRepos
 	{
 	}
 
-	public async Task<PagedList<Student>> GetStudentsAsync(Guid schoolID,
-		StudentParameters studentParameters, bool trackChanges)
+	public async Task<IEnumerable<Student>> GetStudentsAsync(Guid schoolID,
+		 bool trackChanges)
 	{
-		var employees = await FindByCondition(e => e.SchoolId.Equals(schoolID), trackChanges)
-			.FilterEmployees(studentParameters.MinAge, studentParameters.MaxAge)
-			.Search(studentParameters.SearchTerm!)
-			.Sort(studentParameters.OrderBy!)
-			.ToListAsync();
+		var students = await FindByCondition(e => e.SchoolId.Equals(schoolID),
+			trackChanges).OrderBy(e => e.Name).ToListAsync();
 
-		return PagedList<Student>
-			.ToPagedList(employees, studentParameters.PageNumber, studentParameters.PageSize);
-	}
+		return students;
+
+    }
 
 	public async Task<Student> GetStudentAsync(Guid schoolID, Guid id, bool trackChanges) =>
 		await FindByCondition(e => e.SchoolId.Equals(schoolID) && e.Id.Equals(id), trackChanges)
@@ -36,5 +35,5 @@ internal sealed class StudentRepository : RepositoryBase<Student>, IStudentRepos
 		Create(student);
 	}
 
-	public void DeleteEmployee(Student student) => Delete(student);
+	public void DeleteStudent(Student student) => Delete(student);
 }
