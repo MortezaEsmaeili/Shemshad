@@ -25,6 +25,18 @@ namespace Service
             _logger = logger;
             _mapper = mapper;
         }
+
+        public async Task<SchoolDto> CreateCompanyAsync(SchoolForCreationDto school)
+        {
+            var schoolEntity = _mapper.Map<School>(school);
+
+            _repository.School.CreateSchool(schoolEntity);
+            await _repository.SaveAsync();
+
+            var schoolToReturn = _mapper.Map<SchoolDto>(schoolEntity);
+            return schoolToReturn;
+        }
+
         public async Task<IEnumerable<SchoolDto>> GetAllSchoolsAsync(bool trackChanges)
         {
             var schools =

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
+using Shared.DataTransferObjects;
 
 namespace Shmshad.Presentation.Controllers
 {
@@ -27,6 +28,15 @@ namespace Shmshad.Presentation.Controllers
         { 
             var school = 
                 await _service.SchoolService.GetSchoolAsync(id, trackChanges: false);
-            return Ok(school); }
+            return Ok(school); 
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateSchool([FromBody] SchoolForCreationDto school)
+        {
+            if(school == null)
+                return BadRequest("SchoolForCreationDto is null");
+            var createdSchool = await _service.SchoolService.CreateCompanyAsync(school);
+            return CreatedAtRoute("SchoolById", new { id = createdSchool.Id }, createdSchool);
+        }
     }
 }

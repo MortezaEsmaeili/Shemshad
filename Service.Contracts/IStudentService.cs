@@ -12,9 +12,9 @@ public interface IStudentService
 	Task<IEnumerable<StudentDto>> GetStudentsAsync(Guid schoolId,
 		 bool trackChanges);
 	Task<StudentDto> GetStudentAsync(Guid schoolId, Guid id, bool trackChanges);
-/*	Task<EmployeeDto> CreateEmployeeForCompanyAsync(Guid companyId,
-		EmployeeForCreationDto employeeForCreation, bool trackChanges);
-	Task DeleteEmployeeForCompanyAsync(Guid companyId, Guid id, bool trackChanges);
+	Task<StudentDto> CreateStudentForSchoolAsync(Guid schoolId,
+		StudentForCreationDto StudentForCreation, bool trackChanges);
+/*	Task DeleteEmployeeForCompanyAsync(Guid companyId, Guid id, bool trackChanges);
 	Task UpdateEmployeeForCompanyAsync(Guid companyId, Guid id,
 		EmployeeForUpdateDto employeeForUpdate, bool compTrackChanges, bool empTrackChanges);
 	Task<(EmployeeForUpdateDto employeeToPatch, Employee employeeEntity)> GetEmployeeForPatchAsync(

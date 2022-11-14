@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Contracts;
 using Entities.Exceptions;
+using Entities.Models;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using System;
@@ -22,6 +23,20 @@ namespace Service
             _repository = repository;
             _logger = logger;
             _mapper = mapper;
+        }
+
+        public async Task<StudentDto> CreateStudentForSchoolAsync(Guid schoolId, StudentForCreationDto StudentForCreation, bool trackChanges)
+        {
+            var school = await _repository.School.GetSchoolAsync(schoolId,trackChanges);
+            if(school == null)
+                throw new SchoolNotFoundException(schoolId);
+
+            var studentEntity = _mapper.Map<Student>(StudentForCreation);
+            _repository.Student.CreateStudentForSchool(schoolId, studentEntity);
+            await _repository.SaveAsync();
+
+            var studentToReturn = _mapper.Map<StudentDto>(studentEntity);
+            return studentToReturn;
         }
 
         public async Task<StudentDto> GetStudentAsync(Guid schoolId, Guid id, bool trackChanges)

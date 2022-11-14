@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
+using Shared.DataTransferObjects;
 
 namespace Shemshad.Presentation.Controllers
 {
@@ -22,11 +23,21 @@ namespace Shemshad.Presentation.Controllers
             return Ok(students);
         }
 
-        [HttpGet("{id:guid}")]
+        [HttpGet("{id:guid}", Name = "GetStudentsForSchool")]
         public async Task<IActionResult> GetStudentForSchool(Guid schoolId, Guid id)
         {
             var student = await _service.StudentService.GetStudentAsync(schoolId, id, trackChanges: false);
             return Ok(student);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateStudentForSchool(Guid schoolId, [FromBody] StudentForCreationDto student)
+        {
+            if (student == null)
+                return BadRequest("StudentForCreation is null!");
+
+            var studentToReturn = await _service.StudentService.CreateStudentForSchoolAsync(schoolId,student,trackChanges: false);
+            return CreatedAtRoute("GetStudentsForSchool", new { schoolId, id = studentToReturn.Id }, studentToReturn);
         }
     }
 }
