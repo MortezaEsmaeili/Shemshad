@@ -39,6 +39,20 @@ namespace Service
             return studentToReturn;
         }
 
+        public async Task DeleteStudentForSchoolAsync(Guid schoolId, Guid id, bool trackChanges)
+        {
+            var school = await _repository.School.GetSchoolAsync(schoolId, trackChanges);
+            if (school == null)
+                throw new SchoolNotFoundException(schoolId);
+            var studentDb = await _repository.Student.GetStudentAsync(schoolId, id, trackChanges);
+            if (studentDb == null)
+                throw new StudentNotFoundException(id);
+
+            _repository.Student.DeleteStudent(studentDb);
+            await _repository.SaveAsync();
+
+        }
+
         public async Task<StudentDto> GetStudentAsync(Guid schoolId, Guid id, bool trackChanges)
         {
             var school = await _repository.School.GetSchoolAsync(schoolId,trackChanges);
@@ -61,6 +75,21 @@ namespace Service
                 await _repository.Student.GetStudentsAsync(schoolId,trackChanges);
             var studentsDto = _mapper.Map<IEnumerable<StudentDto>>(studentsFromDb);
             return studentsDto;
+        }
+
+        public async Task UpdateStudentForSchoolAsync(Guid schoolId, Guid id, 
+            StudentForUpdateDto studentForUpdate, bool schTrackChanges, bool stuTrackChanges)
+        {
+            var school = await _repository.School.GetSchoolAsync(schoolId, schTrackChanges);
+            if (school == null)
+                throw new SchoolNotFoundException(schoolId);
+
+            var studentEntity = await _repository.Student.GetStudentAsync(schoolId,id, stuTrackChanges);
+            if(studentEntity is null)
+                throw new StudentNotFoundException(id);
+
+            _mapper.Map(studentForUpdate, studentEntity);
+            await _repository.SaveAsync();
         }
     }
 }

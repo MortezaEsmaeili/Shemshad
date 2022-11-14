@@ -15,6 +15,9 @@ namespace Shemshad.Presentation
             CreateMap<Student, StudentDto>();
 
             CreateMap<SchoolForCreationDto, School>();
+            CreateMap<StudentForCreationDto, Student>();
+            CreateMap<StudentForUpdateDto, Student>();
+            CreateMap<SchoolForUpdateDto, School>();
         }
     }
 }

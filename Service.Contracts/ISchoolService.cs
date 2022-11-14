@@ -8,11 +8,12 @@ public interface ISchoolService
 {
 	Task<IEnumerable<SchoolDto>> GetAllSchoolsAsync(bool trackChanges);
 	Task<SchoolDto> GetSchoolAsync(Guid schoolId, bool trackChanges);
-	Task<SchoolDto> CreateCompanyAsync(SchoolForCreationDto school);
-/*	Task<IEnumerable<CompanyDto>> GetByIdsAsync(IEnumerable<Guid> ids, bool trackChanges);
-	Task<(IEnumerable<CompanyDto> companies, string ids)> CreateCompanyCollectionAsync
-		(IEnumerable<CompanyForCreationDto> companyCollection);
-	Task DeleteCompanyAsync(Guid companyId, bool trackChanges);
-	Task UpdateCompanyAsync(Guid companyid, CompanyForUpdateDto companyForUpdate, bool trackChanges);
-*/
+	Task<SchoolDto> CreateSchoolAsync(SchoolForCreationDto school);
+	Task<IEnumerable<SchoolDto>> GetByIdsAsync(IEnumerable<Guid> ids,
+		bool trackChanges);
+	Task<(IEnumerable<SchoolDto> schools, string ids)> CreateSchoolCollectionAsync
+		(IEnumerable<SchoolForCreationDto> schoolCollection);
+	Task DeleteSchoolAsync(Guid schoolId, bool trackChanges);
+	Task UpdateSchoolAsync(Guid schoolId, SchoolForUpdateDto schoolForUpdate,
+		bool trackChanges);
 }

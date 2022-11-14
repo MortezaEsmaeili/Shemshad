@@ -31,11 +31,11 @@ builder.Services.AddControllers(config =>
     config.CacheProfiles.Add("120SecondsDuration", new CacheProfile { Duration = 120 });
 }).AddXmlDataContractSerializerFormatters()
   .AddApplicationPart(typeof(Shemshad.Presentation.AssemblyReference).Assembly);
-/*
+
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
     options.SuppressModelStateInvalidFilter = true;
-});*/
+});
 
 builder.Services.AddControllers();
 

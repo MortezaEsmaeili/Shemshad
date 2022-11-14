@@ -14,10 +14,10 @@ public interface IStudentService
 	Task<StudentDto> GetStudentAsync(Guid schoolId, Guid id, bool trackChanges);
 	Task<StudentDto> CreateStudentForSchoolAsync(Guid schoolId,
 		StudentForCreationDto StudentForCreation, bool trackChanges);
-/*	Task DeleteEmployeeForCompanyAsync(Guid companyId, Guid id, bool trackChanges);
-	Task UpdateEmployeeForCompanyAsync(Guid companyId, Guid id,
-		EmployeeForUpdateDto employeeForUpdate, bool compTrackChanges, bool empTrackChanges);
-	Task<(EmployeeForUpdateDto employeeToPatch, Employee employeeEntity)> GetEmployeeForPatchAsync(
+	Task DeleteStudentForSchoolAsync(Guid schoolId, Guid id, bool trackChanges);
+	Task UpdateStudentForSchoolAsync(Guid SchoolId, Guid id,
+		StudentForUpdateDto studentForUpdate, bool schTrackChanges, bool stuTrackChanges);
+/*	Task<(EmployeeForUpdateDto employeeToPatch, Employee employeeEntity)> GetEmployeeForPatchAsync(
 		Guid companyId, Guid id, bool compTrackChanges, bool empTrackChanges);
 	Task SaveChangesForPatchAsync(EmployeeForUpdateDto employeeToPatch, Employee employeeEntity);
 */

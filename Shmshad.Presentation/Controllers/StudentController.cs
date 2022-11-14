@@ -39,5 +39,24 @@ namespace Shemshad.Presentation.Controllers
             var studentToReturn = await _service.StudentService.CreateStudentForSchoolAsync(schoolId,student,trackChanges: false);
             return CreatedAtRoute("GetStudentsForSchool", new { schoolId, id = studentToReturn.Id }, studentToReturn);
         }
+
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> DeleteStudentForSchool(Guid schoolId, Guid id)
+        {
+            await _service.StudentService.DeleteStudentForSchoolAsync(schoolId, id, trackChanges: false);
+
+            return NoContent();
+        }
+
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> UpdateStudentForSchool(Guid schoolID, Guid id,
+            [FromBody] StudentForUpdateDto student)
+        {
+            if(student is null)
+                return BadRequest("StudentForUpdateDto object is null!");
+            await _service.StudentService.UpdateStudentForSchoolAsync(schoolID,
+                id, student, false, true);
+            return NoContent();
+        }
     }
 }
