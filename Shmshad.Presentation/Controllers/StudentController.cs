@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using CompanyEmployees.Presentation.ActionFilters;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects;
@@ -31,6 +32,7 @@ namespace Shemshad.Presentation.Controllers
         }
 
         [HttpPost]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateStudentForSchool(Guid schoolId, [FromBody] StudentForCreationDto student)
         {
             if (student == null)
@@ -49,6 +51,7 @@ namespace Shemshad.Presentation.Controllers
         }
 
         [HttpPut("{id:guid}")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateStudentForSchool(Guid schoolID, Guid id,
             [FromBody] StudentForUpdateDto student)
         {

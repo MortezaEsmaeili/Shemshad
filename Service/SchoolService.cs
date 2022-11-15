@@ -58,10 +58,7 @@ namespace Service
 
         public async Task DeleteSchoolAsync(Guid schoolId, bool trackChanges)
         {
-            var school = await _repository.School.GetSchoolAsync(schoolId, trackChanges);
-
-            if (school is null)
-                throw new SchoolNotFoundException(schoolId);
+            var school = await GetSchoolAndCheckIfItExists(schoolId, trackChanges);
 
             _repository.School.DeleteSchool(school);
             await _repository.SaveAsync();
@@ -90,10 +87,7 @@ namespace Service
 
         public async Task<SchoolDto> GetSchoolAsync(Guid id, bool trackChanges)
         {
-            var school = await _repository.School.GetSchoolAsync(id, trackChanges);
-            
-            if (school is null)
-                throw new SchoolNotFoundException(id);
+            var school = await GetSchoolAndCheckIfItExists(id, trackChanges);
 
             var schoolDTO = _mapper.Map<SchoolDto>(school);
             return schoolDTO; 
@@ -102,13 +96,20 @@ namespace Service
         public async Task UpdateSchoolAsync(Guid schoolId, SchoolForUpdateDto schoolForUpdate,
             bool trackChanges)
         {
-            var schoolEntity = await _repository.School.GetSchoolAsync(schoolId, trackChanges);
-
-            if (schoolEntity is null)
-                throw new SchoolNotFoundException(schoolId);
+            var schoolEntity = await GetSchoolAndCheckIfItExists(schoolId, trackChanges);
 
             _mapper.Map(schoolForUpdate, schoolEntity);
             await _repository.SaveAsync();
+        }
+
+        private async Task<School> GetSchoolAndCheckIfItExists(Guid id, bool trackChanges)
+        {
+            var school = await _repository.School.GetSchoolAsync(id, trackChanges);
+
+            if(school is null)
+                throw new SchoolNotFoundException(id);
+
+            return school;
         }
     }
 }

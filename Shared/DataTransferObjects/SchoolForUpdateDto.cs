@@ -1,4 +1,6 @@
 ﻿namespace Shared.DataTransferObjects;
 
-public record SchoolForUpdateDto(string Name, string Address, string country,
-        IEnumerable<StudentForCreationDto>? Students);
+public record SchoolForUpdateDto : SchoolForManipulationDto
+{
+    IEnumerable<StudentForCreationDto>? Students { get; set; }
+}

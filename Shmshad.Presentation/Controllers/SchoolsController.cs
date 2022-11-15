@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CompanyEmployees.Presentation.ActionFilters;
+using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 
@@ -31,6 +32,7 @@ namespace Shmshad.Presentation.Controllers
             return Ok(school); 
         }
         [HttpPost]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateSchool([FromBody] SchoolForCreationDto school)
         {
             if(school == null)
@@ -63,6 +65,7 @@ namespace Shmshad.Presentation.Controllers
         }
 
         [HttpPut("{id:guid}")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateSchool(Guid id, [FromBody] SchoolForUpdateDto school)
         {
             if(school is null)

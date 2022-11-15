@@ -1,3 +1,3 @@
 ﻿namespace Shared.DataTransferObjects;
 
-public record StudentForCreationDto(string Name, int Age, int eClass);
+public record StudentForCreationDto : StudentForManipulationDto;
